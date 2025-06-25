@@ -6,6 +6,7 @@ type Container interface {
 	Provide(provider any) error
 	Invoke(fn any) error
 	Resolve(target any) error
+	InjectFields(target any) error
 }
 
 type container struct {

@@ -9,7 +9,13 @@ func (c container) getProviderValueByType(targetType reflect.Type) (reflect.Valu
 	provider, exists := c.providers[targetType]
 	if !exists {
 		if isAutoConstructStructDataType(targetType) {
-			return c.invokeAutoConstructStruct(targetType)
+			structValuePointer := reflect.New(targetType)
+			c.InjectFields(structValuePointer)
+
+			c.instances[targetType] = structValuePointer.Elem()
+			c.providers[targetType] = structValuePointer.Elem()
+
+			return structValuePointer.Elem(), nil
 		}
 		return reflect.Value{}, errors.New("no provider found for type " + targetType.String())
 	}
