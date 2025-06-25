@@ -5,21 +5,21 @@ import (
 	"reflect"
 )
 
-func isAutoProvidStruct(dataType reflect.Type) bool {
+func isAutoConstructStructDataType(dataType reflect.Type) bool {
 	if dataType.Kind() == reflect.Struct {
-		return isAutoProvideStruct(dataType)
+		return isAutoConstructStruct(dataType)
 	}
 
 	if dataType.Kind() == reflect.Ptr && dataType.Elem().Kind() == reflect.Struct {
-		return isAutoProvideStruct(dataType.Elem())
+		return isAutoConstructStruct(dataType.Elem())
 	}
 
 	return false
 }
 
-func (c container) invokeAutoProvideStruct(dataType reflect.Type) (reflect.Value, error) {
-	if !isAutoProvidStruct(dataType) {
-		return reflect.Value{}, errors.New("dataType is not an auto-provided struct")
+func (c container) invokeAutoConstructStruct(dataType reflect.Type) (reflect.Value, error) {
+	if !isAutoConstructStruct(dataType) {
+		return reflect.Value{}, errors.New("dataType is not an auto-constructed struct")
 	}
 
 	structValue := reflect.New(dataType).Elem()
@@ -44,7 +44,7 @@ func (c container) invokeAutoProvideStruct(dataType reflect.Type) (reflect.Value
 	return structValue, nil
 }
 
-func isAutoProvideStruct(dataType reflect.Type) bool {
+func isAutoConstructStruct(dataType reflect.Type) bool {
 	if dataType.Kind() != reflect.Struct {
 		return false
 	}

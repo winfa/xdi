@@ -110,7 +110,7 @@ func TestInvokeErrorMissingProvider(t *testing.T) {
 	}
 }
 
-func TestInvokeWithAutoProvideStruct(t *testing.T) {
+func TestInvokeWithAutoConstructStruct(t *testing.T) {
 	c := NewContainer()
 
 	// Provide values for fields with inject tags
@@ -121,8 +121,8 @@ func TestInvokeWithAutoProvideStruct(t *testing.T) {
 		return 50
 	})
 
-	// Invoke a function with AutoProvidedStruct as parameter
-	err := c.Invoke(func(val AutoProvidedStruct) {
+	// Invoke a function with AutoConstructdStruct as parameter
+	err := c.Invoke(func(val AutoConstructdStruct) {
 		// Validate the resolved struct
 		if val.Name != "Auto Injected Name" || val.Age != 50 {
 			t.Fatalf("Resolved struct does not match expected values: %+v", val)
@@ -133,11 +133,11 @@ func TestInvokeWithAutoProvideStruct(t *testing.T) {
 	}
 }
 
-func TestInvokeWithMissingAutoProvideStructFields(t *testing.T) {
+func TestInvokeWithMissingAutoConstructStructFields(t *testing.T) {
 	c := NewContainer()
 
-	// Invoke a function with AutoProvidedStruct as parameter, but missing providers
-	err := c.Invoke(func(val AutoProvidedStruct) {
+	// Invoke a function with AutoConstructdStruct as parameter, but missing providers
+	err := c.Invoke(func(val AutoConstructdStruct) {
 		// This block should not be executed due to missing providers
 		t.Fatal("Expected error for missing providers, but function was invoked")
 	})

@@ -8,8 +8,8 @@ import (
 func (c container) getProviderValueByType(targetType reflect.Type) (reflect.Value, error) {
 	provider, exists := c.providers[targetType]
 	if !exists {
-		if isAutoProvidStruct(targetType) {
-			return c.invokeAutoProvideStruct(targetType)
+		if isAutoConstructStructDataType(targetType) {
+			return c.invokeAutoConstructStruct(targetType)
 		}
 		return reflect.Value{}, errors.New("no provider found for type " + targetType.String())
 	}

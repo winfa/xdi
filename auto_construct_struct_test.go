@@ -4,25 +4,25 @@ import (
 	"testing"
 )
 
-type AutoProvidedStruct struct {
+type AutoConstructdStruct struct {
 	Name  string `inject:""`
 	Age   int    `inject:""`
 	Email string `inject:""`
 }
 
-type NestedAutoProvidedStruct struct {
-	Injected AutoProvidedStruct `inject:""`
-	Address  string             `inject:""`
+type NestedAutoConstructdStruct struct {
+	Injected AutoConstructdStruct `inject:""`
+	Address  string               `inject:""`
 }
 
-type AutoProvidedStructWithNonInjectFields struct {
+type AutoConstructdStructWithNonInjectFields struct {
 	Name  string `inject:""`
 	Age   int    `inject:""`
 	Email string `inject:""`
 	Other string // Field without inject tag
 }
 
-func TestAutoProvideStruct(t *testing.T) {
+func TestAutoConstructStruct(t *testing.T) {
 	c := NewContainer()
 
 	// Provide values for some fields
@@ -32,8 +32,8 @@ func TestAutoProvideStruct(t *testing.T) {
 	_ = c.Provide(func() int {
 		return 50
 	})
-	_ = c.Provide(func() AutoProvidedStruct {
-		return AutoProvidedStruct{
+	_ = c.Provide(func() AutoConstructdStruct {
+		return AutoConstructdStruct{
 			Name:  "Nested Name",
 			Age:   40,
 			Email: "nested@example.com",
@@ -41,7 +41,7 @@ func TestAutoProvideStruct(t *testing.T) {
 	})
 
 	// Resolve a struct with inject tags
-	var result NestedAutoProvidedStruct
+	var result NestedAutoConstructdStruct
 	err := c.Resolve(&result)
 	if err != nil {
 		t.Fatalf("Failed to resolve struct: %v", err)
@@ -56,11 +56,11 @@ func TestAutoProvideStruct(t *testing.T) {
 	}
 }
 
-func TestAutoProvideStructWithoutProvider(t *testing.T) {
+func TestAutoConstructStructWithoutProvider(t *testing.T) {
 	c := NewContainer()
 
 	// Resolve a struct without providing any values
-	var result AutoProvidedStruct
+	var result AutoConstructdStruct
 	err := c.Resolve(&result)
 
 	// Validate the error
@@ -74,7 +74,7 @@ func TestAutoProvideStructWithoutProvider(t *testing.T) {
 	}
 }
 
-func TestAutoProvideStructWithNonInjectFields(t *testing.T) {
+func TestAutoConstructStructWithNonInjectFields(t *testing.T) {
 	c := NewContainer()
 
 	// Provide values for fields with inject tags
@@ -89,10 +89,10 @@ func TestAutoProvideStructWithNonInjectFields(t *testing.T) {
 	})
 
 	// Resolve a struct with both inject and non-inject fields
-	var result AutoProvidedStructWithNonInjectFields
+	var result AutoConstructdStructWithNonInjectFields
 	err := c.Resolve(&result)
 
-	expectedError := "no provider found for type xdi.AutoProvidedStructWithNonInjectFields"
+	expectedError := "no provider found for type xdi.AutoConstructdStructWithNonInjectFields"
 	if err.Error() != expectedError {
 		t.Fatalf("Expected error '%s', but got '%s'", expectedError, err.Error())
 	}
