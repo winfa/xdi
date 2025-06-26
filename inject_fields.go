@@ -6,7 +6,7 @@ import (
 )
 
 // InjectFields implements Container.
-func (c container) InjectFields(target any) error {
+func (c *container) InjectFields(target any) error {
 	targetValue := reflect.ValueOf(target)
 	if targetValue.Kind() != reflect.Ptr {
 		return errors.New("target must be a pointer")

@@ -77,7 +77,7 @@ func TestResolveWithNonFunctionProvider(t *testing.T) {
 		Age:   25,
 		Email: "jane.doe@example.com",
 	}
-	c.(container).providers[reflect.TypeOf(TestStruct{})] = reflect.ValueOf(provider)
+	c.(*container).providers[reflect.TypeOf(TestStruct{})] = reflect.ValueOf(provider)
 
 	// Resolve the struct
 	var result TestStruct

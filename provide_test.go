@@ -19,7 +19,7 @@ func TestProvideValidFunctionNoParams(t *testing.T) {
 	}
 
 	typ := reflect.TypeOf(provider).Out(0)
-	if _, exists := c.(container).providers[typ]; !exists {
+	if _, exists := c.(*container).providers[typ]; !exists {
 		t.Fatalf("Expected provider of type %v to be stored", typ)
 	}
 }

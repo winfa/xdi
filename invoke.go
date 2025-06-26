@@ -7,7 +7,7 @@ import (
 
 type FunctionCallResult = []reflect.Value
 
-func (c container) Invoke(invoker any) error {
+func (c *container) Invoke(invoker any) error {
 	invokerValue := reflect.ValueOf(invoker)
 
 	if invokerValue.Kind() != reflect.Func {
@@ -22,7 +22,7 @@ func (c container) Invoke(invoker any) error {
 	return nil
 }
 
-func (c container) invokeFunction(invoker reflect.Value) (FunctionCallResult, error) {
+func (c *container) invokeFunction(invoker reflect.Value) (FunctionCallResult, error) {
 	if invoker.Kind() != reflect.Func {
 		return nil, errors.New("invoker is not a function")
 	}

@@ -5,7 +5,10 @@ import (
 	"reflect"
 )
 
-func (c container) Provide(provider any) error {
+func (c *container) Provide(provider any) error {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
 	providerValue := reflect.ValueOf(provider)
 	providerType := reflect.TypeOf(provider)
 
